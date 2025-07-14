@@ -22,6 +22,22 @@ import {
 } from "react-leaflet";
 import * as z from "zod";
 
+import L from "leaflet";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
+import iconUrl from "leaflet/dist/images/marker-icon.png";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+
+// Fix for default Leaflet icons
+// This ensures that Leaflet can find its default marker images
+// when deployed, as the paths might change in production builds.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+delete (L.Icon.Default.prototype as any)._getIconUrl; // Corrected: delete _getIconUrl property
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+});
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +48,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
-
 import {
   ResizableHandle,
   ResizablePanel,
